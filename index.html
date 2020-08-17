@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" id="search-box" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" onclick="getWeather()" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="city"></h1>
+            <h3><span id="temperature"></span>&deg;C</h3>
+            <h1 class="lead" id="condition"></h1>
+        </div>
+    </div>
+
+    <script>
+        function getWeather(){
+            let inputValue = document.getElementById('search-box').value;
+            fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputValue+'&appid=5a09dc790fa41df156302ecf2766546e')
+            .then(res => res.json())
+            .then(data => {
+                const weather = data.weather[0];
+                const mainTemp = data.main;
+                const temp = (parseFloat(`${mainTemp.temp}`) - 273.15).toFixed(2);
+                const condition = weather.main;
+                document.getElementById('city').innerText = data.name;
+                document.getElementById('temperature').innerText = temp;
+                document.getElementById('condition').innerText = condition;
+            })
+        }
+    </script>
+
+</body>
+
+</html>
